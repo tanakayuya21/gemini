@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 // import 'package:purchases_flutter/purchases_flutter.dart';
-import 'subsc_standerd.dart';
-import 'subsc_pro.dart';
+// import 'subsc_standerd.dart';
+// import 'subsc_pro.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -104,7 +104,6 @@ class _CardButtonsState extends State<CardButtons> {
                   color: Color.fromARGB(255, 203, 202, 202),
                   // _selectedButton == 'ボタン 1' ? Colors.blue : Colors.grey,
                   width: 3,
-                  
                 ),
               ),
               child: Padding(
