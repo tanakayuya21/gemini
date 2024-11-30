@@ -1,28 +1,18 @@
-// ignore_for_file: use_super_parameters
-// import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'next.dart';
-
 import '../src/screens/account.dart';
 import '../src/screens/bookmark.dart';
 import '../src/screens/home.dart';
 import '../src/screens/notification.dart';
 import 'src/screens/subsc.dart';
 
-// import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import '../../admobHelper.dart';
-// import 'package:google_mobile_ads/google_mobile_ads.dart';
-// import 'admobHelper.dart';
-// import 'package:google_mobile_ads/google_mobile_ads.dart';
-// import 'package:purchases_flutter/purchases_flutter.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  AdmobHelper.initialization();
   runApp(const MyApp());
 }
 
@@ -158,11 +148,10 @@ class _MyHomePageState extends State<MyHomePage> {
       body: SafeArea(
         child: Column(
           children: [
-            // SizedBox(height: 100.0),
-            // SizedBox(
-            //   height: 100.0,
-            //   child: AdWidget(ad: AdmobHelper.getLargeBannerAd()..load()),
-            // ),
+            SizedBox(
+              height: 100.0,
+              child: AdWidget(ad: AdmobHelper.getLargeBannerAd()..load()),
+            ),
             Expanded(
               child: _screens[_selectedIndex],
               // Column(children: [
@@ -201,5 +190,3 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-
-class AdWidget {}

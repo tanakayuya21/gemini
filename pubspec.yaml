@@ -36,8 +36,8 @@ dependencies:
   cupertino_icons: ^1.0.8
   google_generative_ai: ^0.4.6
   url_launcher: ^6.3.1
-
-
+  google_mobile_ads: ^5.2.0
+  purchases_flutter: ^8.1.2
 
 
 
