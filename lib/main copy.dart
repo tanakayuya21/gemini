@@ -1,19 +1,31 @@
+// ignore_for_file: use_super_parameters
+// import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:gemini/src/screens/billing.dart';
+import 'next.dart';
+
 import '../src/screens/account.dart';
 import '../src/screens/bookmark.dart';
 import '../src/screens/home.dart';
 import '../src/screens/notification.dart';
 import 'src/screens/subsc.dart';
 
+// import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import '../../admobHelper.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
+// import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'admobHelper.dart';
+// import 'package:google_mobile_ads/google_mobile_ads.dart';
+// import 'package:purchases_flutter/purchases_flutter.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  AdmobHelper.initialization();
-
+  // WidgetsFlutterBinding.ensureInitialized();444
+  // AdmobHelper.initialization();
   runApp(const MyApp());
 }
 
@@ -23,7 +35,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(primarySwatch: Colors.blue),
       home: const MyHomePage(title: 'e-KAITOU(ChatGPT搭載)'),
@@ -98,8 +109,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   static final _screens = [
     const HomeScreen(),
-    // const NotificationScreen(),
-    // const SubScPage(),
+    const NotificationScreen(),
+    const SubScPage(),
     const BookmarkScreen(),
   ];
 
@@ -134,7 +145,6 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         shape: const Border(bottom: BorderSide(color: Colors.white, width: 3)),
         elevation: 200, //
-
         title: Text(
           widget.title,
           style: const TextStyle(
@@ -150,10 +160,15 @@ class _MyHomePageState extends State<MyHomePage> {
       body: SafeArea(
         child: Column(
           children: [
-            SizedBox(
-              height: 100.0,
-              child: AdWidget(ad: AdmobHelper.getLargeBannerAd()..load()),
-            ),
+            // SizedBox(height: 100.0),
+            // Center(
+            //   child: AdWidget(ad: AdmobHelper.getLargeBannerAd()..load()),
+            // ),
+
+            // SizedBox(
+            //   height: 100.0,
+            //   child: AdWidget(ad: AdmobHelper.getLargeBannerAd()..load()),
+            // ),
             Expanded(
               child: _screens[_selectedIndex],
               // Column(children: [
@@ -161,6 +176,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
+
       bottomNavigationBar: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         mainAxisSize: MainAxisSize.min,
@@ -172,14 +188,14 @@ class _MyHomePageState extends State<MyHomePage> {
             selectedItemColor: const Color.fromARGB(255, 22, 87, 207),
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(icon: Icon(Icons.home), label: 'ホーム'),
-              // BottomNavigationBarItem(
-              //   icon: Icon(Icons.notifications),
-              //   label: 'お知らせ',
-              // ),
-              // BottomNavigationBarItem(
-              //   icon: Icon(Icons.card_giftcard),
-              //   label: '購入',
-              // ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.notifications),
+                label: 'お知らせ',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.card_giftcard),
+                label: '購入',
+              ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.favorite),
                 label: 'プライバシー',
@@ -192,3 +208,5 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+
+class AdWidget {}

@@ -26,6 +26,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(primarySwatch: Colors.blue),
       home: const MyHomePage(title: 'Best Answer!(ChatGPT搭載)'),
@@ -132,345 +133,354 @@ class _MyHomePageState extends State<MyHomePage> {
       // appBar: AppBar(
       //   title: const Text('HOME'),
       // ), // body:
-      body: Center(
-        child: ClipRect(
-          child: Stack(
-            clipBehavior: Clip.hardEdge,
-            fit: StackFit.expand,
-            children: [
-              SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.only(
-                        top: 50,
-                        right: 10,
-                        bottom: 10,
-                        left: 10,
-                      ),
-                      child: TextFormField(
-                        style: const TextStyle(
-                          fontSize: 15,
-                          color: Color.fromARGB(255, 72, 121, 255),
-                          fontStyle: FontStyle.italic,
-                          fontWeight: FontWeight.bold,
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Center(
+          child: ClipRect(
+            child: Stack(
+              clipBehavior: Clip.hardEdge,
+              fit: StackFit.expand,
+              children: [
+                SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(
+                          top: 50,
+                          right: 10,
+                          bottom: 10,
+                          left: 10,
                         ),
-                        cursorColor: const Color.fromRGBO(131, 124, 124, 1),
-                        maxLines: 17,
-                        // minLines: 1,
-                        controller: _textEditingController,
-                        keyboardType: TextInputType.multiline,
-                        decoration: InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15.0),
-                            borderSide: const BorderSide(
-                              color: Color.fromARGB(255, 211, 214, 220),
-                            ),
+                        child: TextFormField(
+                          style: const TextStyle(
+                            fontSize: 15,
+                            color: Color.fromARGB(255, 72, 121, 255),
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.bold,
                           ),
-                          border: InputBorder.none,
-                          fillColor: Colors.white,
-                          filled: true,
-                        ),
-                      ),
-                    ),
-                    Center(
-                      child: Column(
-                        children: [
-                          Visibility(
-                            visible: value,
-                            child: const Text(
-                              'インターネットに接続してください。',
-                              style: TextStyle(
-                                fontSize: 15,
-                                color: Color.fromARGB(255, 213, 107, 128),
-                                fontWeight: FontWeight.bold,
+                          cursorColor: const Color.fromRGBO(131, 124, 124, 1),
+                          maxLines: 17,
+                          // minLines: 1,
+                          controller: _textEditingController,
+                          keyboardType: TextInputType.multiline,
+                          decoration: InputDecoration(
+                            hintText: "お相手のメールの文章を貼り付けてください",
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15.0),
+                              borderSide: const BorderSide(
+                                color: Color.fromARGB(255, 211, 214, 220),
                               ),
                             ),
+                            border: InputBorder.none,
+                            fillColor: Colors.white,
+                            filled: true,
                           ),
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              Row(
-                                children: [
-                                  const Text(
-                                    'あなたの性別',
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      color: Color.fromARGB(255, 74, 116, 222),
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  Radio(
-                                    value: 1,
-                                    activeColor: Colors.blue,
-                                    groupValue: _selectedValue!,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        _selectedValue = value;
-                                        print(_selectedValue);
-                                      });
-                                    },
-                                  ),
-                                  const Text('男性'),
-                                  Radio(
-                                    value: 2,
-                                    activeColor: Colors.blue,
-                                    groupValue: _selectedValue!,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        _selectedValue = value;
-                                        print(_selectedValue);
-                                      });
-                                    },
-                                  ),
-                                  const Text('女性'),
-                                ],
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 15,
-                            // width: 300,
-                          ),
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              ElevatedButton(
-                                onPressed: () async {
-                                  onPressMyButton();
-                                  setState(() {
-                                    _isLoading = true;
-                                  });
-                                  print(
-                                    "「${_textEditingController.text}」とメールが来た時、サバサバしながらも好感を得る理想の返し方は?",
-                                  );
-                                  var sex = "恋人";
-                                  if (_selectedValue == 1) {
-                                    sex = "彼女";
-                                  }
-                                  if (_selectedValue == 2) {
-                                    sex = "彼氏";
-                                  }
-                                  var requestText =
-                                      "「${_textEditingController.text}」と$sexからメールが来た時、タメ語で100文字以内でツンンツしなら荒い言葉で、好意を持たれる理想の返信コメントを記述してください。";
-                                  String? answer;
-
-                                  _sendChatMessage(requestText);
-
-                                  if (answer == "") {
-                                    value = true;
-                                  }
-                                },
-                                // ignore: sort_child_properties_last
-                                child: Ink(
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: Colors.white,
-                                      width: 3.0,
-                                    ),
-                                    borderRadius: BorderRadius.circular(50),
-                                    gradient: const LinearGradient(
-                                      colors: [
-                                        Color(0xFF40DAE4),
-                                        Color.fromARGB(255, 74, 116, 222),
-                                      ],
-                                    ),
-                                  ),
-                                  child: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                      vertical: 10,
-                                      horizontal: 15,
-                                    ),
-                                    child: const Text(
-                                      'ツンツン',
-                                      style: TextStyle(
-                                        fontSize: 15,
-                                        color: Color.fromARGB(
-                                          255,
-                                          255,
-                                          255,
-                                          255,
-                                        ),
-                                        fontWeight: FontWeight.bold,
-                                        // letterSpacing: 2.0, // 文字間のスペース
-                                        // wordSpacing: 5.0, //
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                style: ElevatedButton.styleFrom(
-                                  padding: EdgeInsets.zero,
-                                ),
-                              ),
-                              const SizedBox(width: 20),
-                              ElevatedButton(
-                                onPressed: () async {
-                                  onPressMyButton();
-                                  setState(() {
-                                    _isLoading = true;
-                                  });
-                                  print(
-                                    "${_textEditingController.text}とメールが来た時、サバサバしながらも好感を得る理想の返し方は?",
-                                  );
-                                  var sex = "恋人";
-                                  if (_selectedValue == 1) {
-                                    sex = "彼女";
-                                  }
-                                  if (_selectedValue == 2) {
-                                    sex = "彼氏";
-                                  }
-
-                                  var requestText =
-                                      "「${_textEditingController.text}」と彼女からメールが来た時、おっとりしながらもタメ語で100文字以内で好意を持たれる理想の返信コメントを記述してください";
-                                  String answer = "";
-                                  print("answer");
-                                  print(answer);
-                                  print("answer");
-
-                                  _sendChatMessage(requestText);
-                                  if (answer == "") {
-                                    print("aaaaaa");
-                                    value = true;
-                                  }
-                                },
-                                // ignore: sort_child_properties_last
-                                child: Ink(
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: Colors.white,
-                                      width: 3.0,
-                                    ),
-                                    borderRadius: BorderRadius.circular(50),
-                                    gradient: const LinearGradient(
-                                      colors: [
-                                        Color(0xFF40DAE4),
-                                        Color.fromARGB(255, 74, 116, 222),
-                                      ],
-                                    ),
-                                  ),
-                                  child: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                      vertical: 10,
-                                      horizontal: 15,
-                                    ),
-                                    child: const Text(
-                                      'おっとり',
-                                      style: TextStyle(
-                                        fontSize: 15,
-                                        color: Color.fromARGB(
-                                          255,
-                                          255,
-                                          255,
-                                          255,
-                                        ),
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                style: ElevatedButton.styleFrom(
-                                  padding: EdgeInsets.zero,
-                                ),
-                              ),
-                              const SizedBox(width: 20),
-                              ElevatedButton(
-                                onPressed: () async {
-                                  onPressMyButton();
-                                  var sex = "恋人";
-                                  if (_selectedValue == 1) {
-                                    sex = "彼女";
-                                  }
-                                  if (_selectedValue == 2) {
-                                    sex = "彼氏";
-                                  }
-                                  var requestText =
-                                      "「${_textEditingController.text}」と$sexからメールが来た時、穏やかに敬語で100文字以内で好意を持たれる理想の返信コメントを記述してください";
-
-                                  String? answer = "";
-                                  print("answer");
-                                  print(answer);
-                                  print("answer");
-
-                                  _sendChatMessage(requestText);
-                                },
-                                // ignore: sort_child_properties_last
-                                child: Ink(
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: Colors.white,
-                                      width: 3.0,
-                                    ),
-                                    borderRadius: BorderRadius.circular(50),
-                                    gradient: const LinearGradient(
-                                      colors: [
-                                        Color(0xFF40DAE4),
-                                        Color.fromARGB(255, 74, 116, 222),
-                                      ],
-                                    ),
-                                  ),
-                                  child: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                      vertical: 10,
-                                      horizontal: 15,
-                                    ),
-                                    child: const Text(
-                                      'きっちり',
-                                      style: TextStyle(
-                                        fontSize: 15,
-                                        color: Color.fromARGB(
-                                          255,
-                                          255,
-                                          255,
-                                          255,
-                                        ),
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                style: ElevatedButton.styleFrom(
-                                  padding: EdgeInsets.zero,
-                                ),
-                              ),
-                            ],
-                          ),
-                          // SizedBox(
-                          //   height: 13.0,
-                          // ),
-                        ],
+                        ),
                       ),
-                    ),
+                      Center(
+                        child: Column(
+                          children: [
+                            Visibility(
+                              visible: value,
+                              child: const Text(
+                                'インターネットに接続してください。',
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: Color.fromARGB(255, 213, 107, 128),
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                Row(
+                                  children: [
+                                    const Text(
+                                      'あなたの性別',
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        color: Color.fromARGB(
+                                          255,
+                                          74,
+                                          116,
+                                          222,
+                                        ),
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Radio(
+                                      value: 1,
+                                      activeColor: Colors.blue,
+                                      groupValue: _selectedValue!,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          _selectedValue = value;
+                                          print(_selectedValue);
+                                        });
+                                      },
+                                    ),
+                                    const Text('男性'),
+                                    Radio(
+                                      value: 2,
+                                      activeColor: Colors.blue,
+                                      groupValue: _selectedValue!,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          _selectedValue = value;
+                                          print(_selectedValue);
+                                        });
+                                      },
+                                    ),
+                                    const Text('女性'),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 15,
+                              // width: 300,
+                            ),
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                ElevatedButton(
+                                  onPressed: () async {
+                                    onPressMyButton();
+                                    setState(() {
+                                      _isLoading = true;
+                                    });
+                                    print(
+                                      "「${_textEditingController.text}」とメールが来た時、サバサバしながらも好感を得る理想の返し方は?",
+                                    );
+                                    var sex = "恋人";
+                                    if (_selectedValue == 1) {
+                                      sex = "彼女";
+                                    }
+                                    if (_selectedValue == 2) {
+                                      sex = "彼氏";
+                                    }
+                                    var requestText =
+                                        "「${_textEditingController.text}」と$sexからメールが来た時、タメ語で100文字以内でツンンツしなら荒い言葉で、好意を持たれる理想の返信コメントを記述してください。";
+                                    String? answer;
 
-                    // Padding(
-                    //   padding: const EdgeInsets.all(25),
-                    //   child: Text(
-                    //       style: const TextStyle(
-                    //         fontSize: 15,
-                    //         color: Color(0xFF0044F2),
-                    //         fontStyle: FontStyle.italic,
-                    //       ),
-                    //       "${_answer}"),
-                    // ),
-                    //
-                    //ローディングを表示させるためのボタン
-                    // ElevatedButton(
-                    //   onPressed: onPressMyButton,
-                    //   child:
-                    //       const Text('ローディングを表示', style: TextStyle(fontSize: 20)),
-                    // ),
-                  ],
+                                    _sendChatMessage(requestText);
+
+                                    if (answer == "") {
+                                      // value = true;
+                                    }
+                                  },
+                                  // ignore: sort_child_properties_last
+                                  child: Ink(
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: Colors.white,
+                                        width: 3.0,
+                                      ),
+                                      borderRadius: BorderRadius.circular(50),
+                                      gradient: const LinearGradient(
+                                        colors: [
+                                          Color(0xFF40DAE4),
+                                          Color.fromARGB(255, 74, 116, 222),
+                                        ],
+                                      ),
+                                    ),
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 10,
+                                        horizontal: 15,
+                                      ),
+                                      child: const Text(
+                                        'ツンツン',
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                          color: Color.fromARGB(
+                                            255,
+                                            255,
+                                            255,
+                                            255,
+                                          ),
+                                          fontWeight: FontWeight.bold,
+                                          // letterSpacing: 2.0, // 文字間のスペース
+                                          // wordSpacing: 5.0, //
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  style: ElevatedButton.styleFrom(
+                                    padding: EdgeInsets.zero,
+                                  ),
+                                ),
+                                const SizedBox(width: 20),
+                                ElevatedButton(
+                                  onPressed: () async {
+                                    onPressMyButton();
+                                    setState(() {
+                                      _isLoading = true;
+                                    });
+                                    print(
+                                      "${_textEditingController.text}とメールが来た時、サバサバしながらも好感を得る理想の返し方は?",
+                                    );
+                                    var sex = "恋人";
+                                    if (_selectedValue == 1) {
+                                      sex = "彼女";
+                                    }
+                                    if (_selectedValue == 2) {
+                                      sex = "彼氏";
+                                    }
+
+                                    var requestText =
+                                        "「${_textEditingController.text}」と彼女からメールが来た時、おっとりしながらもタメ語で100文字以内で好意を持たれる理想の返信コメントを記述してください";
+                                    String answer = "";
+                                    print("answer");
+                                    print(answer);
+                                    print("answer");
+
+                                    _sendChatMessage(requestText);
+                                    if (answer == "") {
+                                      print("aaaaaa");
+                                      // value = true;
+                                    }
+                                  },
+                                  // ignore: sort_child_properties_last
+                                  child: Ink(
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: Colors.white,
+                                        width: 3.0,
+                                      ),
+                                      borderRadius: BorderRadius.circular(50),
+                                      gradient: const LinearGradient(
+                                        colors: [
+                                          Color(0xFF40DAE4),
+                                          Color.fromARGB(255, 74, 116, 222),
+                                        ],
+                                      ),
+                                    ),
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 10,
+                                        horizontal: 15,
+                                      ),
+                                      child: const Text(
+                                        'おっとり',
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                          color: Color.fromARGB(
+                                            255,
+                                            255,
+                                            255,
+                                            255,
+                                          ),
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  style: ElevatedButton.styleFrom(
+                                    padding: EdgeInsets.zero,
+                                  ),
+                                ),
+                                const SizedBox(width: 20),
+                                ElevatedButton(
+                                  onPressed: () async {
+                                    onPressMyButton();
+                                    var sex = "恋人";
+                                    if (_selectedValue == 1) {
+                                      sex = "彼女";
+                                    }
+                                    if (_selectedValue == 2) {
+                                      sex = "彼氏";
+                                    }
+                                    var requestText =
+                                        "「${_textEditingController.text}」と$sexからメールが来た時、穏やかに敬語で100文字以内で好意を持たれる理想の返信コメントを記述してください";
+
+                                    String? answer = "";
+                                    print("answer");
+                                    print(answer);
+                                    print("answer");
+
+                                    _sendChatMessage(requestText);
+                                  },
+                                  // ignore: sort_child_properties_last
+                                  child: Ink(
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: Colors.white,
+                                        width: 3.0,
+                                      ),
+                                      borderRadius: BorderRadius.circular(50),
+                                      gradient: const LinearGradient(
+                                        colors: [
+                                          Color(0xFF40DAE4),
+                                          Color.fromARGB(255, 74, 116, 222),
+                                        ],
+                                      ),
+                                    ),
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 10,
+                                        horizontal: 15,
+                                      ),
+                                      child: const Text(
+                                        'きっちり',
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                          color: Color.fromARGB(
+                                            255,
+                                            255,
+                                            255,
+                                            255,
+                                          ),
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  style: ElevatedButton.styleFrom(
+                                    padding: EdgeInsets.zero,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            // SizedBox(
+                            //   height: 13.0,
+                            // ),
+                          ],
+                        ),
+                      ),
+
+                      // Padding(
+                      //   padding: const EdgeInsets.all(25),
+                      //   child: Text(
+                      //       style: const TextStyle(
+                      //         fontSize: 15,
+                      //         color: Color(0xFF0044F2),
+                      //         fontStyle: FontStyle.italic,
+                      //       ),
+                      //       "${_answer}"),
+                      // ),
+                      //
+                      //ローディングを表示させるためのボタン
+                      // ElevatedButton(
+                      //   onPressed: onPressMyButton,
+                      //   child:
+                      //       const Text('ローディングを表示', style: TextStyle(fontSize: 20)),
+                      // ),
+                    ],
+                  ),
                 ),
-              ),
-              // Center(
-              //   child: AdWidget(
-              //     ad: AdmobHelper.getLargeBannerAd()..load(),
-              //   ),
-              // ),
-              //
-              //ローディング
-              // OverlayLoadingMolecules(visible: visibleLoading),
-            ],
+                // Center(
+                //   child: AdWidget(
+                //     ad: AdmobHelper.getLargeBannerAd()..load(),
+                //   ),
+                // ),
+                //
+                //ローディング
+                // OverlayLoadingMolecules(visible: visibleLoading),
+              ],
+            ),
           ),
         ),
       ),
